@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 
 class AppColor {
@@ -8,6 +6,7 @@ class AppColor {
   static const Color background = Color(0xFFF6F6F6);
   static const Color title = Color(0xFF0C0C0C);
   static const Color hint = Color(0xFFB0B0B0);
+  static const Color negative = Color(0xFF727272);
 }
 
 class AppStyle {
@@ -23,7 +22,7 @@ class AppStyle {
     fontWeight: FontWeight.w400,
   );
 
-  static const TextStyle hint = TextStyle(
+  static const TextStyle hintText = TextStyle(
     fontSize: 12,
     color: AppColor.hint,
     fontWeight: FontWeight.w500,
