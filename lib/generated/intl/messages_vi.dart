@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a en locale. All the
+// This is a library that provides messages for a vi locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -18,7 +18,7 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'en';
+  String get localeName => 'vi';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -30,7 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Back to task list"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "complete": MessageLookupByLibrary.simpleMessage("Complete"),
-        "current_language": MessageLookupByLibrary.simpleMessage("English"),
+        "current_language": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "delete_task": MessageLookupByLibrary.simpleMessage("Delete Task"),
         "delete_task_confirm": MessageLookupByLibrary.simpleMessage(
@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "on_time": MessageLookupByLibrary.simpleMessage("On time"),
         "others": MessageLookupByLibrary.simpleMessage("Others"),
-        "overdue": MessageLookupByLibrary.simpleMessage("Overdue"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "repeat_task": MessageLookupByLibrary.simpleMessage("Repeat task"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
@@ -68,7 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "task_title_hint": MessageLookupByLibrary.simpleMessage(
             "Try typing \'Take the English test\'"),
         "this_week": MessageLookupByLibrary.simpleMessage("This week"),
-        "today": MessageLookupByLibrary.simpleMessage("Today"),
+        "today": MessageLookupByLibrary.simpleMessage("Hôm nay"),
         "tommorow": MessageLookupByLibrary.simpleMessage("Tommorow"),
         "update_task_error":
             MessageLookupByLibrary.simpleMessage("Cannot update this task!"),

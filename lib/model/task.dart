@@ -1,40 +1,51 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:todo_app/util/date_time_utils.dart';
+
+import 'repeat_type.dart';
 
 part 'task.g.dart';
 
 @JsonSerializable()
 class Task extends Equatable {
   final int id;
-  final String content;
+  final String title;
   final bool isCompleted;
   final DateTime createdDate;
-  final DateTime? dueDate;
+  final DateTime dueDate;
   final DateTime? completedDate;
+  final RepeatType repeatType;
 
-  const Task(
-      {required this.id,
-      required this.content,
-      required this.isCompleted,
-      required this.createdDate,
-      this.dueDate,
-      this.completedDate});
+  const Task({
+    required this.id,
+    required this.title,
+    this.isCompleted = false,
+    required this.createdDate,
+    required this.dueDate,
+    this.completedDate,
+    this.repeatType = RepeatType.never,
+  }) : assert(isCompleted ^ (completedDate == null));
+
+  bool get isOverdue =>
+      completedDate == null && dueDate.isBefore(DateTimeUtils.today());
 
   Task copyWith({
     int? id,
-    String? content,
+    String? title,
     bool? isCompleted,
     DateTime? createdDate,
     DateTime? dueDate,
-    DateTime? completedDate,
+    required DateTime? completedDate,
+    RepeatType? repeatType,
   }) {
     return Task(
       id: id ?? this.id,
-      content: content ?? this.content,
+      title: title ?? this.title,
       isCompleted: isCompleted ?? this.isCompleted,
       createdDate: createdDate ?? this.createdDate,
       dueDate: dueDate ?? this.dueDate,
-      completedDate: completedDate ?? this.completedDate,
+      completedDate: completedDate,
+      repeatType: repeatType ?? this.repeatType,
     );
   }
 
@@ -58,7 +69,7 @@ class Task extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, content, isCompleted, createdDate, dueDate, completedDate];
+      [id, title, isCompleted, createdDate, dueDate, completedDate];
 
   @override
   bool get stringify => true;
