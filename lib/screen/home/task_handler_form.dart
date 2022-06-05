@@ -11,9 +11,11 @@ import 'home_screen.dart';
 import 'repeat_type_picker.dart';
 
 class TaskHandlerForm extends StatefulWidget {
-  const TaskHandlerForm({this.taskId, Key? key}) : super(key: key);
+  const TaskHandlerForm({this.taskId, required this.onDone, Key? key})
+      : super(key: key);
 
   final int? taskId;
+  final void Function(String?) onDone;
 
   @override
   State<TaskHandlerForm> createState() => _TaskHandlerFormState();
@@ -56,7 +58,8 @@ class _TaskHandlerFormState extends State<TaskHandlerForm> {
   Widget build(BuildContext context) {
     return BlocListener(
       bloc: homeBloc,
-      listenWhen: (prev, curr) => curr is TaskLoaded,
+      listenWhen: (prev, curr) =>
+          curr is TaskLoaded || curr is TaskAdded || curr is TaskUpdated,
       listener: (ctx, state) {
         if (state is TaskLoaded) {
           _neededEditTask = state.task;
@@ -69,6 +72,10 @@ class _TaskHandlerFormState extends State<TaskHandlerForm> {
           setState(() {
             _canSubmit = true;
           });
+        } else if (state is TaskUpdated) {
+          widget.onDone(S.current.update_task_success);
+        } else if (state is TaskAdded) {
+          widget.onDone(S.current.add_task_success);
         }
       },
       child: Padding(

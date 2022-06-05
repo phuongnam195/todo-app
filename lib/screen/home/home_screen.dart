@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
 
   @override
   void initState() {
-    _loadTasks();
+    _refresh();
     super.initState();
   }
 
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
               var languageChanged = await Navigator.of(context)
                   .pushNamed(SettingScreen.routeName);
               if (languageChanged == true) {
-                _loadTasks();
+                _refresh();
               }
             },
           ),
@@ -70,10 +70,15 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
                 return SingleChildScrollView(
                   child: Column(
                     children: state.mapTasks.entries
-                        .map((e) => TasksCard(
+                        .map(
+                          (e) => TasksCard(
                             key: Key(e.toString()),
                             title: e.key,
-                            tasks: e.value))
+                            tasks: e.value,
+                            onEditTask: (taskId) =>
+                                _handleTask(context, taskId),
+                          ),
+                        )
                         .toList(),
                   ),
                 );
@@ -84,32 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
           backgroundColor: AppColor.primary,
           child: const Icon(Icons.add),
           elevation: 0,
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (mbsContext) => BlocListener(
-                  bloc: homeBloc,
-                  listenWhen: (prev, curr) =>
-                      curr is TaskAdded || curr is TaskUpdated,
-                  listener: (ctx, state) {
-                    if (state is TaskAdded || state is TaskUpdated) {
-                      _loadTasks();
-                      Navigator.of(mbsContext).pop();
-                      if (state is TaskAdded) {
-                        showMessage(context, S.current.add_task_success);
-                      } else if (state is TaskUpdated) {
-                        showMessage(context, S.current.update_task_success);
-                      }
-                    }
-                  },
-                  child: const TaskHandlerForm()),
-              isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12))),
-            );
-          },
+          onPressed: () => _handleTask(context),
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: [
@@ -133,14 +113,35 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
             setState(() {
               _currentPageIndex = index;
             });
-            _loadTasks();
+            _refresh();
           },
         ),
       ),
     );
   }
 
-  _loadTasks() {
+  // taskId == null: add new task
+  // taskId != null: edit task
+  _handleTask(BuildContext context, [int? taskId]) async {
+    return showModalBottomSheet(
+      context: context,
+      builder: (mbsContext) => TaskHandlerForm(
+          taskId: taskId,
+          onDone: (msg) {
+            _refresh();
+            Navigator.of(mbsContext).pop();
+            if (msg != null) {
+              showMessage(context, msg);
+            }
+          }),
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+    );
+  }
+
+  _refresh() {
     switch (_currentPageIndex) {
       case 0:
         homeBloc.add(LoadTasks(completed: true));

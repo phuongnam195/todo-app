@@ -22,56 +22,59 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "add_new_task": MessageLookupByLibrary.simpleMessage("Add new task"),
+        "add_new_task":
+            MessageLookupByLibrary.simpleMessage("Thêm công việc mới"),
         "add_task_success":
-            MessageLookupByLibrary.simpleMessage("Add task successfully"),
-        "all": MessageLookupByLibrary.simpleMessage("All"),
+            MessageLookupByLibrary.simpleMessage("Thêm công việc thành công"),
+        "all": MessageLookupByLibrary.simpleMessage("Tất cả"),
         "back_to_task_list":
-            MessageLookupByLibrary.simpleMessage("Back to task list"),
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "complete": MessageLookupByLibrary.simpleMessage("Complete"),
+            MessageLookupByLibrary.simpleMessage("Trở về danh sách"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Hủy"),
+        "complete": MessageLookupByLibrary.simpleMessage("Xong"),
         "current_language": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
-        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
-        "delete_task": MessageLookupByLibrary.simpleMessage("Delete Task"),
+        "delete": MessageLookupByLibrary.simpleMessage("Xóa"),
+        "delete_task": MessageLookupByLibrary.simpleMessage("Xóa công việc"),
         "delete_task_confirm": MessageLookupByLibrary.simpleMessage(
-            "Are you sure delete this task?"),
+            "Bạn chắc chắn xóa công việc này?"),
         "delete_task_error":
-            MessageLookupByLibrary.simpleMessage("Task does not exist"),
+            MessageLookupByLibrary.simpleMessage("Công việc không tồn tại"),
         "delete_task_success":
-            MessageLookupByLibrary.simpleMessage("Task deleted successfully"),
-        "due_date": MessageLookupByLibrary.simpleMessage("Due date"),
+            MessageLookupByLibrary.simpleMessage("Xóa công việc thành công"),
+        "due_date": MessageLookupByLibrary.simpleMessage("Thời hạn"),
         "duplicate_task":
-            MessageLookupByLibrary.simpleMessage("Duplicate task"),
-        "error": MessageLookupByLibrary.simpleMessage("Error"),
-        "every_day": MessageLookupByLibrary.simpleMessage("Every day"),
-        "every_month": MessageLookupByLibrary.simpleMessage("Every month"),
-        "every_week": MessageLookupByLibrary.simpleMessage("Every week"),
-        "every_year": MessageLookupByLibrary.simpleMessage("Every year"),
+            MessageLookupByLibrary.simpleMessage("Công việc trùng lặp"),
+        "error": MessageLookupByLibrary.simpleMessage("Lỗi"),
+        "every_day": MessageLookupByLibrary.simpleMessage("Hàng ngày"),
+        "every_month": MessageLookupByLibrary.simpleMessage("Hàng tháng"),
+        "every_week": MessageLookupByLibrary.simpleMessage("Hàng tuần"),
+        "every_year": MessageLookupByLibrary.simpleMessage("Hàng năm"),
         "hahahaa": MessageLookupByLibrary.simpleMessage("hahaha"),
-        "incomplete": MessageLookupByLibrary.simpleMessage("Incomplete"),
-        "language": MessageLookupByLibrary.simpleMessage("Language"),
-        "never": MessageLookupByLibrary.simpleMessage("Never"),
-        "notification": MessageLookupByLibrary.simpleMessage("Notification"),
-        "notification_description":
-            MessageLookupByLibrary.simpleMessage("Remind due tasks"),
+        "incomplete": MessageLookupByLibrary.simpleMessage("Chưa xong"),
+        "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
+        "never": MessageLookupByLibrary.simpleMessage("Không bao giờ"),
+        "notification": MessageLookupByLibrary.simpleMessage("Thông báo"),
+        "notification_description": MessageLookupByLibrary.simpleMessage(
+            "Nhắc nhở các công việc đến hạn"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
-        "on_time": MessageLookupByLibrary.simpleMessage("On time"),
-        "others": MessageLookupByLibrary.simpleMessage("Others"),
-        "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
-        "repeat_task": MessageLookupByLibrary.simpleMessage("Repeat task"),
-        "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "setting": MessageLookupByLibrary.simpleMessage("Setting"),
-        "switch_language": MessageLookupByLibrary.simpleMessage("Switch"),
+        "on_time": MessageLookupByLibrary.simpleMessage("Đúng giờ"),
+        "others": MessageLookupByLibrary.simpleMessage("Khác"),
+        "overdue": MessageLookupByLibrary.simpleMessage("Quá giờ"),
+        "repeat": MessageLookupByLibrary.simpleMessage("Lặp lại"),
+        "repeat_task":
+            MessageLookupByLibrary.simpleMessage("Lặp lại công việc"),
+        "save": MessageLookupByLibrary.simpleMessage("Lưu"),
+        "setting": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+        "switch_language": MessageLookupByLibrary.simpleMessage("Đổi"),
         "task_not_found":
-            MessageLookupByLibrary.simpleMessage("Task not found"),
+            MessageLookupByLibrary.simpleMessage("Không tìm thấy công việc"),
         "task_title_hint": MessageLookupByLibrary.simpleMessage(
-            "Try typing \'Take the English test\'"),
-        "this_week": MessageLookupByLibrary.simpleMessage("This week"),
+            "Thử gõ \'Làm đề thi thử tiếng Anh\'"),
+        "this_week": MessageLookupByLibrary.simpleMessage("Tuần này"),
         "today": MessageLookupByLibrary.simpleMessage("Hôm nay"),
-        "tommorow": MessageLookupByLibrary.simpleMessage("Tommorow"),
-        "update_task_error":
-            MessageLookupByLibrary.simpleMessage("Cannot update this task!"),
-        "update_task_success":
-            MessageLookupByLibrary.simpleMessage("Task updated successfully")
+        "tommorow": MessageLookupByLibrary.simpleMessage("Ngày mai"),
+        "update_task_error": MessageLookupByLibrary.simpleMessage(
+            "Không thể cập nhật công việc này!"),
+        "update_task_success": MessageLookupByLibrary.simpleMessage(
+            "Cập nhật công việc thành công")
       };
 }

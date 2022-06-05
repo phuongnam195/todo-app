@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/generated/l10n.dart';
+import 'package:todo_app/model/repeat_type.dart';
 import 'package:todo_app/model/task.dart';
 import 'package:todo_app/screen/home/home_bloc.dart';
 import 'package:todo_app/screen/home/home_screen.dart';
 import 'package:todo_app/util/constants.dart';
 
-import 'task_handler_form.dart';
-
 class TasksCard extends StatefulWidget {
-  const TasksCard({required this.title, required this.tasks, Key? key})
+  const TasksCard(
+      {required this.title,
+      required this.tasks,
+      required this.onEditTask,
+      Key? key})
       : super(key: key);
 
   final String title;
   final List<Task> tasks;
+  final void Function(int) onEditTask;
 
   @override
   State<TasksCard> createState() => _TasksCardState();
@@ -96,6 +100,7 @@ class _TasksCardState extends State<TasksCard> {
           if (_isExpanded)
             ReorderableListView(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 for (int i = 0; i < widget.tasks.length; i++) _item(i)
               ],
@@ -140,13 +145,19 @@ class _TasksCardState extends State<TasksCard> {
                     decoration:
                         task.isCompleted ? TextDecoration.lineThrough : null),
               ),
+              secondary: task.repeatType != RepeatType.never
+                  ? const Icon(
+                      Icons.repeat_rounded,
+                      color: AppColor.hint,
+                    )
+                  : null,
             ),
             endActionPane: ActionPane(
               extentRatio: 0.4,
               motion: const DrawerMotion(),
               children: [
                 SlidableAction(
-                  onPressed: (_) => _editTask(i),
+                  onPressed: (_) => widget.onEditTask(widget.tasks[i].id),
                   backgroundColor: const Color(0xFF1885F2),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
@@ -171,21 +182,13 @@ class _TasksCardState extends State<TasksCard> {
   int get _numCompletedTasks =>
       widget.tasks.where((task) => task.isCompleted).length;
 
-  _editTask(int index) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => TaskHandlerForm(taskId: widget.tasks[index].id),
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12), topRight: Radius.circular(12))),
-    );
-  }
-
   _deleteTask(int index) {
     homeBloc.add(DeleteTask(widget.tasks[index].id));
     setState(() {
       widget.tasks.removeAt(index);
+      if (widget.tasks.isEmpty) {
+        _isExpanded = false;
+      }
     });
   }
 
