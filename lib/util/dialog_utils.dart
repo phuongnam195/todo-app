@@ -41,19 +41,27 @@ class DialogUtils {
   }
 
   showMessage(BuildContext context, String message,
-      {Color? backgroundColor, IconData? icon, double height = 60}) {
+      {Color? backgroundColor, IconData? icon, double height = 56}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      dismissDirection: DismissDirection.up,
       behavior: SnackBarBehavior.floating,
-      margin:
-          EdgeInsets.only(bottom: MediaQuery.of(context).size.height - height),
+      backgroundColor: backgroundColor ?? AppColor.secondary,
+      padding: EdgeInsets.zero,
+      margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 153 - height),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      elevation: 0,
       content: Container(
-          color: backgroundColor ?? AppColor.secondary,
           height: height,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(message),
-              Icon(icon ?? Icons.check_circle_outline),
+              Icon(
+                icon ?? Icons.check_circle_outline,
+                color: Colors.white,
+              ),
             ],
           )),
     ));
