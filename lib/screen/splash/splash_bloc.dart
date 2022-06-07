@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/setting.dart';
 import 'package:todo_app/generated/l10n.dart';
+import 'package:todo_app/repository/task_repository.dart';
 import 'package:todo_app/util/service_utils.dart';
 
 // region EVENT
@@ -29,6 +30,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     await Setting().init();
     await S.load(Locale(Setting().getLanguage()));
     await ServiceUtils.run();
+    await TaskRepository().init();
     emit(DataInitialized());
   }
 }

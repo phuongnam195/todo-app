@@ -21,9 +21,9 @@ create table $tableTask (
   $columnId integer primary key autoincrement, 
   $columnTitle text not null,
   $columnIsCompleted integer not null,
-  $columnCreatedDate integer not null,
-  $columnDueDate integer,
-  $columnCompletedDate integer,
+  $columnCreatedDate text not null,
+  $columnDueDate text,
+  $columnCompletedDate text,
   $columnRepeatType text not null)
 ''');
     });
@@ -32,12 +32,18 @@ create table $tableTask (
   Future<Task?> insert(Task task) async {
     final maps = await _db.query(tableTask,
         columns: [columnId, columnTitle, columnDueDate, columnRepeatType],
-        where: '$columnTitle = ?, $columnDueDate = ?, $columnRepeatType = ?',
-        whereArgs: [task.title, task.dueDate, task.repeatType]);
+        where:
+            '$columnTitle = ? and $columnDueDate = ? and $columnRepeatType = ?',
+        whereArgs: [
+          task.title,
+          task.dueDate.toIso8601String(),
+          task.repeatType.name
+        ]);
 
     if (maps.isNotEmpty) return null;
 
-    int id = await _db.insert(tableTask, task.toJson());
+    int id = await _db.insert(
+        tableTask, task.toJson()..update('isCompleted', (val) => val ? 1 : 0));
     if (id == 0) return null;
 
     return task.copyWith(id: id, completedDate: task.completedDate);
@@ -57,7 +63,8 @@ create table $tableTask (
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.isNotEmpty) {
-      return Task.fromJson(maps.first);
+      Map<String, dynamic> writeMap = Map.from(maps.first);
+      return Task.fromJson(writeMap..update('isCompleted', (val) => val == 1));
     }
     return null;
   }
@@ -78,7 +85,11 @@ create table $tableTask (
       where: where ?? (completed != null ? '$columnIsCompleted = ?' : null),
       whereArgs: whereArgs ?? (completed != null ? [completed] : null),
     );
-    return maps.map((e) => Task.fromJson(e)).toList();
+
+    return maps.map((map) {
+      Map<String, dynamic> writeMap = Map.from(map);
+      return Task.fromJson(writeMap..update('isCompleted', (val) => val == 1));
+    }).toList();
   }
 
   Future<int> delete(int id) async {
@@ -86,7 +97,8 @@ create table $tableTask (
   }
 
   Future<int> update(Task task) async {
-    return await _db.update(tableTask, task.toJson(),
+    return await _db.update(
+        tableTask, task.toJson()..update('isCompleted', (val) => val ? 1 : 0),
         where: '$columnId = ?', whereArgs: [task.id]);
   }
 

@@ -5,6 +5,7 @@ import 'package:todo_app/generated/l10n.dart';
 import 'package:todo_app/model/task.dart';
 import 'package:todo_app/repository/task_repository.dart';
 import 'package:todo_app/util/date_time_utils.dart';
+import 'package:todo_app/util/logger.dart';
 
 abstract class HomeEvent {}
 
@@ -138,6 +139,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e) {
       emit(HomeError(e.toString()));
+      Logger.e('HomeBloc -> LoadTasks', e);
     }
   }
 
@@ -149,6 +151,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e) {
       emit(HomeError('$e'));
+      Logger.e('HomeBloc -> CheckTask', e);
     }
   }
 
@@ -162,6 +165,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e) {
       emit(HomeError('$e'));
+      Logger.e('HomeBloc -> AddTask', e);
     }
   }
 
@@ -175,6 +179,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e) {
       emit(HomeError('$e'));
+      Logger.e('HomeBloc -> DeleteTask', e);
     }
   }
 
@@ -188,6 +193,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e) {
       emit(HomeError('$e'));
+      Logger.e('HomeBloc -> UpdateTask', e);
     }
   }
 
@@ -201,6 +207,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e) {
       emit(HomeError('$e'));
+      Logger.e('HomeBloc -> LoadTask', e);
     }
   }
 }
