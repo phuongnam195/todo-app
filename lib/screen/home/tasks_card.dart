@@ -137,6 +137,7 @@ class _TasksCardState extends State<TasksCard> {
                     widget.tasks[i] = task.uncomplete();
                   }
                 });
+                homeBloc.add(CheckTask(widget.tasks[i]));
               },
               controlAffinity: ListTileControlAffinity.leading,
               title: Text(
