@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:todo_app/generated/l10n.dart';
 import 'package:todo_app/screen/home/home_screen.dart';
 import 'package:todo_app/screen/splash/splash_screen.dart';
 import 'package:todo_app/util/constants.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'screen/setting/setting_screen.dart';
 

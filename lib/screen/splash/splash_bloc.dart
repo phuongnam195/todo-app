@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/setting.dart';
 import 'package:todo_app/generated/l10n.dart';
+import 'package:todo_app/util/service_utils.dart';
 
 // region EVENT
 abstract class SplashEvent {}
@@ -26,7 +27,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
   _onInitData(InitData event, Emitter<SplashState> emit) async {
     await Setting().init();
-    S.load(Locale(Setting().getLanguage()));
+    await S.load(Locale(Setting().getLanguage()));
+    await ServiceUtils.run();
     emit(DataInitialized());
   }
 }

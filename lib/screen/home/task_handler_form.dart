@@ -140,10 +140,9 @@ class _TaskHandlerFormState extends State<TaskHandlerForm> {
                             final value = await showDatePicker(
                               context: context,
                               initialDate: _selectedDueDate,
-                              firstDate: DateTimeUtils.today()
-                                  .subtract(const Duration(days: 30)),
+                              firstDate: DateTimeUtils.today(),
                               lastDate: DateTimeUtils.today()
-                                  .add(const Duration(days: 30)),
+                                  .add(const Duration(days: 365 * 5)),
                             );
                             _selectedDueDate = value ?? _selectedDueDate;
                             _dueDateController.text =

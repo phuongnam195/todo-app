@@ -51,6 +51,7 @@ class DialogUtils {
           bottom: MediaQuery.of(context).size.height - 153 - height),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       elevation: 0,
+      duration: const Duration(seconds: 1),
       content: Container(
           height: height,
           padding: const EdgeInsets.symmetric(horizontal: 10),

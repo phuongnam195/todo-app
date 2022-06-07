@@ -18,8 +18,8 @@ class _SettingScreenState extends State<SettingScreen> {
   final _settingBloc = SettingBloc();
   var languageChanged = false;
 
-  late String _languageCode = Setting().getLanguage();
-  late bool _notification = Setting().getNotification();
+  String _languageCode = Setting().getLanguage();
+  bool _notification = Setting().getNotification();
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _SettingScreenState extends State<SettingScreen> {
         listenWhen: (prev, curr) => curr is SettingLoaded,
         listener: (ctx, state) {
           if (state is SettingLoaded) {
-            if (_languageCode != Setting().getLanguage()) {
+            if (_languageCode != state.languageCode) {
               languageChanged = true;
             }
 
@@ -75,10 +75,10 @@ class _SettingScreenState extends State<SettingScreen> {
                       title: Text(S.current.notification),
                       subtitle: Text(S.current.notification_description),
                       trailing: Icon(
-                        _notification
+                        _notification == true
                             ? Icons.check_box
                             : Icons.check_box_outline_blank,
-                        color: _notification
+                        color: _notification == true
                             ? AppColor.secondary
                             : AppColor.negative,
                       ),
