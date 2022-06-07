@@ -15,7 +15,7 @@ List<Task> DUMMY_TASKS = [
     title: 'Sell shirt',
     isCompleted: true,
     createdDate: DateTime.now(),
-    dueDate: DateTimeUtils.tomorrow(),
+    dueDate: DateTimeUtils.today(),
     completedDate: DateTime.now().subtract(const Duration(hours: 13)),
     repeatType: RepeatType.month,
   ),
@@ -23,7 +23,7 @@ List<Task> DUMMY_TASKS = [
     id: 3,
     title: 'Go to gym',
     createdDate: DateTime.now(),
-    dueDate: DateTimeUtils.tomorrow(),
+    dueDate: DateTimeUtils.today(),
     repeatType: RepeatType.year,
   ),
   Task(

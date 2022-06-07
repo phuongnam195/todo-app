@@ -230,10 +230,10 @@ class S {
     );
   }
 
-  /// `Add task successfully`
+  /// `Task has been added!`
   String get add_task_success {
     return Intl.message(
-      'Add task successfully',
+      'Task has been added!',
       name: 'add_task_success',
       desc: '',
       args: [],
@@ -350,10 +350,10 @@ class S {
     );
   }
 
-  /// `Task deleted successfully`
+  /// `Task has been deleted!`
   String get delete_task_success {
     return Intl.message(
-      'Task deleted successfully',
+      'Task has been deleted!',
       name: 'delete_task_success',
       desc: '',
       args: [],
@@ -380,10 +380,10 @@ class S {
     );
   }
 
-  /// `Task updated successfully`
+  /// `Task has been updated!`
   String get update_task_success {
     return Intl.message(
-      'Task updated successfully',
+      'Task has been updated!',
       name: 'update_task_success',
       desc: '',
       args: [],
@@ -447,6 +447,16 @@ class S {
       name: 'notification_description',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `You have {countIncompleted} tasks to do today`
+  String notification_title(int countIncompleted) {
+    return Intl.message(
+      'You have $countIncompleted tasks to do today',
+      name: 'notification_title',
+      desc: '',
+      args: [countIncompleted],
     );
   }
 

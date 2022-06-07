@@ -20,11 +20,14 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(countIncompleted) =>
+      "You have ${countIncompleted} tasks to do today";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_new_task": MessageLookupByLibrary.simpleMessage("Add new task"),
         "add_task_success":
-            MessageLookupByLibrary.simpleMessage("Add task successfully"),
+            MessageLookupByLibrary.simpleMessage("Task has been added!"),
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "back_to_task_list":
             MessageLookupByLibrary.simpleMessage("Back to task list"),
@@ -38,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete_task_error":
             MessageLookupByLibrary.simpleMessage("Task does not exist"),
         "delete_task_success":
-            MessageLookupByLibrary.simpleMessage("Task deleted successfully"),
+            MessageLookupByLibrary.simpleMessage("Task has been deleted!"),
         "due_date": MessageLookupByLibrary.simpleMessage("Due date"),
         "duplicate_task":
             MessageLookupByLibrary.simpleMessage("Duplicate task"),
@@ -54,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notification": MessageLookupByLibrary.simpleMessage("Notification"),
         "notification_description":
             MessageLookupByLibrary.simpleMessage("Remind due tasks"),
+        "notification_title": m0,
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "on_time": MessageLookupByLibrary.simpleMessage("On time"),
         "others": MessageLookupByLibrary.simpleMessage("Others"),
@@ -73,6 +77,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "update_task_error":
             MessageLookupByLibrary.simpleMessage("Cannot update this task!"),
         "update_task_success":
-            MessageLookupByLibrary.simpleMessage("Task updated successfully")
+            MessageLookupByLibrary.simpleMessage("Task has been updated!")
       };
 }

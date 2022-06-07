@@ -1,7 +1,5 @@
-import 'dart:ui';
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_app/generated/l10n.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Setting {
   static final Setting _singleton = Setting._internal();
@@ -11,18 +9,17 @@ class Setting {
   Setting._internal();
 
   Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
-    final languageCode = getLanguage();
-    S.load(Locale(languageCode));
+    final appDocumentDirectory = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDirectory.path);
+    _box = await Hive.openBox('Setting');
   }
 
-  static const _language = 'Language';
-  static const _notification = 'Notification';
-
-  late SharedPreferences _prefs;
+  static Box? _box;
+  static const _languageField = 'Language';
+  static const _notificationField = 'Notification';
 
   String getLanguage() {
-    var languageCode = _prefs.getString(_language);
+    String? languageCode = _box!.get(_languageField);
     if (languageCode == null) {
       languageCode = 'vi';
       setLanguage(languageCode);
@@ -31,14 +28,14 @@ class Setting {
   }
 
   bool getNotification() {
-    return _prefs.getBool(_notification) ?? false;
+    return _box!.get(_notificationField, defaultValue: false);
   }
 
   setLanguage(String language) {
-    _prefs.setString(_language, language);
+    _box!.put(_languageField, language);
   }
 
   setNotification(bool notification) {
-    _prefs.setBool(_notification, notification);
+    _box!.put(_notificationField, notification);
   }
 }

@@ -17,7 +17,7 @@
     "due_date": "Due date",
     "repeat": "Repeat",
     "add_new_task": "Add new task",
-    "add_task_success": "Add task successfully",
+    "add_task_success": "Task has been added!",
     "back_to_task_list": "Back to task list",
     "repeat_task": "Repeat task",
     "never": "Never",
@@ -29,18 +29,26 @@
     "duplicate_task": "Duplicate task",
     "error": "Error",
     "delete_task_error": "Task does not exist",
-    "delete_task_success": "Task deleted successfully",
+    "delete_task_success": "Task has been deleted!",
     "task_not_found": "Task not found",
     "update_task_error": "Cannot update this task!",
-    "update_task_success": "Task updated successfully",
+    "update_task_success": "Task has been updated!",
     "setting": "Setting",
     "language": "Language",
     "current_language": "English",
     "switch_language": "Switch",
     "notification": "Notification",
     "notification_description": "Remind due tasks",
+    "notification_title": "You have {countIncompleted} tasks to do today",
+    "@notification_title": {
+        "placeholders": {
+            "countIncompleted": {
+                "type": "int"
+            }
+        }
+    },
 
 
-
+    
     "hahahaa": "hahaha"
 }

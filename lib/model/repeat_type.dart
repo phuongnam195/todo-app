@@ -19,4 +19,19 @@ extension ParseToString on RepeatType {
         return '';
     }
   }
+
+  DateTime? nextDate(DateTime curr) {
+    switch (this) {
+      case RepeatType.day:
+        return DateTime(curr.year, curr.month, curr.day + 1);
+      case RepeatType.week:
+        return DateTime(curr.year, curr.month, curr.day + 7);
+      case RepeatType.month:
+        return DateTime(curr.year, curr.month + 1, curr.day);
+      case RepeatType.year:
+        return DateTime(curr.year + 1, curr.month, curr.day);
+      default:
+        return null;
+    }
+  }
 }

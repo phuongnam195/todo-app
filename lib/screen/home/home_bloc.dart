@@ -14,6 +14,12 @@ class LoadTasks extends HomeEvent {
   LoadTasks({this.completed});
 }
 
+class CheckTask extends HomeEvent {
+  final Task task;
+
+  CheckTask(this.task);
+}
+
 class AddTask extends HomeEvent {
   final Task task;
 
@@ -73,6 +79,7 @@ class HomeError extends HomeState {
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeLoading()) {
     on<LoadTasks>(_onLoadTasks);
+    on<CheckTask>(_onCheckTask);
     on<AddTask>(_onAddTask);
     on<DeleteTask>(_onDeleteTask);
     on<UpdateTask>(_onUpdateTask);
@@ -93,10 +100,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 !e.dueDate.isToday() &&
                 !e.dueDate.isTomorrow())
             .toList();
+        final otherTasks = tasks.where((e) => !e.dueDate.inThisWeek()).toList();
         emit(TasksLoaded({
           S.current.today: todayTasks,
           S.current.tommorow: tommorowTasks,
           S.current.this_week: weekTasks,
+          S.current.others: otherTasks,
         }));
       } else if (event.completed == true) {
         final tasks = await TaskRepository().getCompletedTasks();
@@ -129,6 +138,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e) {
       emit(HomeError(e.toString()));
+    }
+  }
+
+  _onCheckTask(CheckTask event, Emitter<HomeState> emit) async {
+    try {
+      final ok = await TaskRepository().updateTask(event.task);
+      if (!ok) {
+        throw Exception(S.current.update_task_error);
+      }
+    } catch (e) {
+      emit(HomeError('$e'));
     }
   }
 

@@ -1,11 +1,13 @@
 import 'package:todo_app/database/task_database.dart';
 import 'package:todo_app/dummy_data.dart';
 import 'package:todo_app/model/task.dart';
+import 'package:todo_app/util/date_time_utils.dart';
 
 abstract class ITaskRepository {
   Future<List<Task>> getAll();
   Future<List<Task>> getCompletedTasks();
   Future<List<Task>> getIncompletedTasks();
+  Future<List<Task>> getTodayTasks();
   Future<Task?> getById(int id);
   Future<bool> addTask(Task task);
   Future<bool> updateTask(Task task);
@@ -23,6 +25,9 @@ class TaskRepository implements ITaskRepository {
 
   @override
   Future<bool> addTask(Task task) async {
+    task = task.copyWith(
+        id: DateTime.now().millisecondsSinceEpoch % 100,
+        completedDate: task.completedDate);
     DUMMY_TASKS.add(task);
     return true;
 
@@ -47,13 +52,23 @@ class TaskRepository implements ITaskRepository {
   @override
   Future<List<Task>> getCompletedTasks() async {
     return DUMMY_TASKS.where((e) => e.isCompleted == true).toList();
-    return await _appDB.getList(true);
+    return await _appDB.getList(completed: true);
   }
 
   @override
   Future<List<Task>> getIncompletedTasks() async {
     return DUMMY_TASKS.where((e) => e.isCompleted == false).toList();
-    return await _appDB.getList(false);
+    return await _appDB.getList(completed: false);
+  }
+
+  @override
+  Future<List<Task>> getTodayTasks() async {
+    return DUMMY_TASKS.where((e) => e.dueDate.isToday()).toList();
+
+    return await _appDB.getList(
+      where: '$columnDueDate = ?',
+      whereArgs: [DateTimeUtils.today().millisecondsSinceEpoch],
+    );
   }
 
   @override

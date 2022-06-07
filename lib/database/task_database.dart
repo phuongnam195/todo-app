@@ -62,7 +62,8 @@ create table $tableTask (
     return null;
   }
 
-  Future<List<Task>> getList([bool? completed]) async {
+  Future<List<Task>> getList(
+      {bool? completed, String? where, List<Object?>? whereArgs}) async {
     List<Map<String, dynamic>> maps = await _db.query(
       tableTask,
       columns: [
@@ -74,8 +75,8 @@ create table $tableTask (
         columnCompletedDate,
         columnRepeatType
       ],
-      where: completed != null ? '$columnIsCompleted = ?' : null,
-      whereArgs: completed != null ? [completed] : null,
+      where: where ?? (completed != null ? '$columnIsCompleted = ?' : null),
+      whereArgs: whereArgs ?? (completed != null ? [completed] : null),
     );
     return maps.map((e) => Task.fromJson(e)).toList();
   }

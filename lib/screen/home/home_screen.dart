@@ -68,18 +68,21 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
               hideLoadingDialog();
               if (state is TasksLoaded) {
                 return SingleChildScrollView(
-                  child: Column(
-                    children: state.mapTasks.entries
-                        .map(
-                          (e) => TasksCard(
-                            key: Key(e.toString()),
-                            title: e.key,
-                            tasks: e.value,
-                            onEditTask: (taskId) =>
-                                _handleTask(context, taskId),
-                          ),
-                        )
-                        .toList(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 70),
+                    child: Column(
+                      children: state.mapTasks.entries
+                          .map(
+                            (e) => TasksCard(
+                              key: Key(e.toString()),
+                              title: e.key,
+                              tasks: e.value,
+                              onEditTask: (taskId) =>
+                                  _handleTask(context, taskId),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                 );
               }
@@ -123,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
   // taskId == null: add new task
   // taskId != null: edit task
   _handleTask(BuildContext context, [int? taskId]) async {
-    return showModalBottomSheet(
+    showModalBottomSheet(
       context: context,
       builder: (mbsContext) => TaskHandlerForm(
           taskId: taskId,

@@ -6,7 +6,7 @@
     "tommorow": "Ngày mai",
     "this_week": "Tuần này",
     "on_time": "Đúng giờ",
-    "overdue": "Quá giờ",
+    "overdue": "Quá hạn",
     "others": "Khác",
     "delete_task": "Xóa công việc",
     "delete_task_confirm": "Bạn chắc chắn xóa công việc này?",
@@ -38,7 +38,15 @@
     "current_language": "Tiếng Việt",
     "switch_language": "Đổi",
     "notification": "Thông báo",
-    "notification_description": "Nhắc nhở các công việc đến hạn",
+    "notification_description": "Nhắc nhở các công việc gần đến hạn",
+    "notification_title": "Bạn còn {countIncompleted} công việc chưa hoàn thành",
+    "@notification_title": {
+        "placeholders": {
+            "countIncompleted": {
+                "type": "int"
+            }
+        }
+    },
 
 
 

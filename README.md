@@ -3,8 +3,6 @@
 ## Features
 - [ ] Completed, Incompleted and Both tasks
 - [ ] Due date, notification
-- [ ] Reorder list task
-- [ ] Online sync, account
 - [ ] Repeat task
 
 ## How to build

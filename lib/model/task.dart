@@ -29,6 +29,8 @@ class Task extends Equatable {
   bool get isOverdue =>
       completedDate == null && dueDate.isBefore(DateTimeUtils.today());
 
+  bool get isRepeated => repeatType != RepeatType.never;
+
   Task copyWith({
     int? id,
     String? title,

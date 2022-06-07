@@ -20,6 +20,9 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'vi';
 
+  static String m0(countIncompleted) =>
+      "Bạn còn ${countIncompleted} công việc chưa hoàn thành";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_new_task":
@@ -54,11 +57,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "never": MessageLookupByLibrary.simpleMessage("Không bao giờ"),
         "notification": MessageLookupByLibrary.simpleMessage("Thông báo"),
         "notification_description": MessageLookupByLibrary.simpleMessage(
-            "Nhắc nhở các công việc đến hạn"),
+            "Nhắc nhở các công việc gần đến hạn"),
+        "notification_title": m0,
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "on_time": MessageLookupByLibrary.simpleMessage("Đúng giờ"),
         "others": MessageLookupByLibrary.simpleMessage("Khác"),
-        "overdue": MessageLookupByLibrary.simpleMessage("Quá giờ"),
+        "overdue": MessageLookupByLibrary.simpleMessage("Quá hạn"),
         "repeat": MessageLookupByLibrary.simpleMessage("Lặp lại"),
         "repeat_task":
             MessageLookupByLibrary.simpleMessage("Lặp lại công việc"),
