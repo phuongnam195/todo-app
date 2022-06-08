@@ -1,9 +1,9 @@
 # Todo App
 
 ## Features
-- [ ] Completed, Incompleted and Both tasks
+- [x] Completed, Incompleted and Both tasks
 - [ ] Due date, notification
-- [ ] Repeat task
+- [x] Repeat task
 
 ## How to build
 1. Run command `flutter pub get`
