@@ -5,6 +5,7 @@
 - [x] Due date
 - [ ] Notification
 - [x] Repeat task
+- [x] Multi language
 
 ## How to build
 1. Run command `flutter pub get`
