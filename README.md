@@ -2,7 +2,8 @@
 
 ## Features
 - [x] Completed, Incompleted and Both tasks
-- [ ] Due date, notification
+- [x] Due date
+- [ ] Notification
 - [x] Repeat task
 
 ## How to build
