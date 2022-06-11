@@ -35,5 +35,5 @@
 2. Run command `flutter packages pub run build_runner build`
 3. For Android, run `flutter build apk`
 
-## Technologies
-Flutter
+## Resources
+Thanks for the design: https://www.behance.net/gallery/129445451/Lifetrack-To-do-App-Design-UIUX
