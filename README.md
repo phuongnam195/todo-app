@@ -8,6 +8,7 @@
 - [x] Multi language
 
 ## APK
+
 [apk/todo-app.apk](https://github.com/phuongnam195/todo_app/blob/master/apk/todo-app.apk?raw=true)
 
 ## Screenshots
@@ -26,7 +27,7 @@
   
   <img src="https://user-images.githubusercontent.com/90912187/172538061-4992aca6-6400-4b20-b173-ddd06aeb3bf1.png" width="220" />
   <img src="https://user-images.githubusercontent.com/90912187/172538146-c48f7da2-6855-4e46-ba16-c770521e7325.png" width="220" />
-  <img src="https://user-images.githubusercontent.com/90912187/172538174-696e48bd-c4d1-46ef-bcaa-5ffa68b7b4cc.png" width="220" />
+  <img src="https://user-images.githubusercontent.com/90912187/173179999-c9c316b4-21f1-47de-b0f9-ccac8a6bd6da.png" width="220" />
 </p>
 
 ## How to build
