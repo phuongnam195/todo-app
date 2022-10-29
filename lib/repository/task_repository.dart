@@ -72,7 +72,7 @@ class TaskRepository implements ITaskRepository {
 
     return await _appDB.getList(
       where: '$columnDueDate = ?',
-      whereArgs: [DateTimeUtils.today().millisecondsSinceEpoch],
+      whereArgs: [DateTimeUtils.today().toIso8601String()],
     );
   }
 

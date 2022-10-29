@@ -83,7 +83,7 @@ create table $tableTask (
         columnRepeatType
       ],
       where: where ?? (completed != null ? '$columnIsCompleted = ?' : null),
-      whereArgs: whereArgs ?? (completed != null ? [completed] : null),
+      whereArgs: whereArgs ?? (completed != null ? [completed ? 1 : 0] : null),
     );
 
     return maps.map((map) {

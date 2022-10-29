@@ -56,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
               var languageChanged = await Navigator.of(context)
                   .pushNamed(SettingScreen.routeName);
               if (languageChanged == true) {
-                _refresh();
+                setState(() {
+                  _refresh();
+                });
               }
             },
           ),
