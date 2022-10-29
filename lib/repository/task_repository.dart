@@ -1,10 +1,12 @@
 import 'package:todo_app/database/task_database.dart';
 import 'package:todo_app/dummy_data.dart';
 import 'package:todo_app/model/task.dart';
+import 'package:todo_app/util/string_utils.dart';
 
 abstract class ITaskRepository {
   Future<void> init();
   Future<List<Task>> getAll();
+  Future<List<Task>> getAllBySearch(String keyword);
   Future<Task?> getById(int id);
   Future<bool> addTask(Task task);
   Future<bool> updateTask(Task task);
@@ -49,6 +51,15 @@ class TaskRepository implements ITaskRepository {
   Future<List<Task>> getAll() async {
     return DUMMY_TASKS;
     return await _appDB.getList();
+  }
+
+  @override
+  Future<List<Task>> getAllBySearch(String keyword) async {
+    return DUMMY_TASKS
+        .where((e) => e.title.containsIgnoreCase(keyword))
+        .toList();
+    final all = await getAll();
+    return all.where((e) => e.title.containsIgnoreCase(keyword)).toList();
   }
 
   @override

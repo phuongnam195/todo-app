@@ -8,7 +8,11 @@ import 'package:todo_app/util/logger.dart';
 
 abstract class HomeEvent {}
 
-class LoadTasks extends HomeEvent {}
+class LoadTasks extends HomeEvent {
+  final String? keyword;
+
+  LoadTasks([this.keyword]);
+}
 
 class CheckTask extends HomeEvent {
   final Task task;
@@ -80,7 +84,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   _onLoadTasks(LoadTasks event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
     try {
-      final allTasks = await TaskRepository().getAll();
+      final allTasks = event.keyword == null
+          ? await TaskRepository().getAll()
+          : await TaskRepository().getAllBySearch(event.keyword!);
       final todayTasks = allTasks.where((e) => e.dueDate.isToday()).toList();
       final upcomingTasks = allTasks
           .where((e) =>
