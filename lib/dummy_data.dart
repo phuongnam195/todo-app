@@ -1,4 +1,3 @@
-import 'package:todo_app/model/repeat_type.dart';
 import 'package:todo_app/model/task.dart';
 import 'package:todo_app/util/date_time_utils.dart';
 
@@ -17,14 +16,12 @@ List<Task> DUMMY_TASKS = [
     createdDate: DateTime.now(),
     dueDate: DateTimeUtils.today(),
     completedDate: DateTime.now().subtract(const Duration(hours: 13)),
-    repeatType: RepeatType.month,
   ),
   Task(
     id: 3,
     title: 'Go to gym',
     createdDate: DateTime.now(),
     dueDate: DateTimeUtils.today(),
-    repeatType: RepeatType.year,
   ),
   Task(
     id: 4,

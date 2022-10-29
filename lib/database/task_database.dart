@@ -8,7 +8,6 @@ const columnIsCompleted = 'isCompleted';
 const columnCreatedDate = 'createdDate';
 const columnDueDate = 'dueDate';
 const columnCompletedDate = 'completedDate';
-const columnRepeatType = 'repeatType';
 
 class TaskDatabase {
   static const _name = 'todo_app.db';
@@ -23,27 +22,24 @@ create table $tableTask (
   $columnIsCompleted integer not null,
   $columnCreatedDate text not null,
   $columnDueDate text,
-  $columnCompletedDate text,
-  $columnRepeatType text not null)
+  $columnCompletedDate text)
 ''');
     });
   }
 
   Future<Task?> insert(Task task) async {
     final maps = await _db.query(tableTask,
-        columns: [columnId, columnTitle, columnDueDate, columnRepeatType],
-        where:
-            '$columnTitle = ? and $columnDueDate = ? and $columnRepeatType = ?',
+        columns: [columnId, columnTitle, columnDueDate],
+        where: '$columnTitle = ? and $columnDueDate = ?',
         whereArgs: [
           task.title,
           task.dueDate.toIso8601String(),
-          task.repeatType.name
         ]);
 
     if (maps.isNotEmpty) return null;
 
-    int id = await _db.insert(
-        tableTask, task.toJson()..update('isCompleted', (val) => val ? 1 : 0));
+    int id = await _db.insert(tableTask,
+        task.toJson()..update(columnIsCompleted, (val) => val ? 1 : 0));
     if (id == 0) return null;
 
     return task.copyWith(id: id, completedDate: task.completedDate);
@@ -58,13 +54,13 @@ create table $tableTask (
           columnCreatedDate,
           columnDueDate,
           columnCompletedDate,
-          columnRepeatType
         ],
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.isNotEmpty) {
       Map<String, dynamic> writeMap = Map.from(maps.first);
-      return Task.fromJson(writeMap..update('isCompleted', (val) => val == 1));
+      return Task.fromJson(
+          writeMap..update(columnIsCompleted, (val) => val == 1));
     }
     return null;
   }
@@ -80,7 +76,6 @@ create table $tableTask (
         columnCreatedDate,
         columnDueDate,
         columnCompletedDate,
-        columnRepeatType
       ],
       where: where ?? (completed != null ? '$columnIsCompleted = ?' : null),
       whereArgs: whereArgs ?? (completed != null ? [completed ? 1 : 0] : null),
@@ -88,7 +83,8 @@ create table $tableTask (
 
     return maps.map((map) {
       Map<String, dynamic> writeMap = Map.from(map);
-      return Task.fromJson(writeMap..update('isCompleted', (val) => val == 1));
+      return Task.fromJson(
+          writeMap..update(columnIsCompleted, (val) => val == 1));
     }).toList();
   }
 
@@ -97,8 +93,8 @@ create table $tableTask (
   }
 
   Future<int> update(Task task) async {
-    return await _db.update(
-        tableTask, task.toJson()..update('isCompleted', (val) => val ? 1 : 0),
+    return await _db.update(tableTask,
+        task.toJson()..update(columnIsCompleted, (val) => val ? 1 : 0),
         where: '$columnId = ?', whereArgs: [task.id]);
   }
 

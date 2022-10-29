@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:todo_app/util/date_time_utils.dart';
 
-import 'repeat_type.dart';
-
 part 'task.g.dart';
 
 @JsonSerializable()
@@ -14,7 +12,6 @@ class Task extends Equatable {
   final DateTime createdDate;
   final DateTime dueDate;
   final DateTime? completedDate;
-  final RepeatType repeatType;
 
   const Task({
     required this.id,
@@ -23,13 +20,10 @@ class Task extends Equatable {
     required this.createdDate,
     required this.dueDate,
     this.completedDate,
-    this.repeatType = RepeatType.never,
   }) : assert(isCompleted ^ (completedDate == null));
 
   bool get isOverdue =>
       completedDate == null && dueDate.isBefore(DateTimeUtils.today());
-
-  bool get isRepeated => repeatType != RepeatType.never;
 
   Task copyWith({
     int? id,
@@ -38,7 +32,6 @@ class Task extends Equatable {
     DateTime? createdDate,
     DateTime? dueDate,
     required DateTime? completedDate,
-    RepeatType? repeatType,
   }) {
     return Task(
       id: id ?? this.id,
@@ -47,7 +40,6 @@ class Task extends Equatable {
       createdDate: createdDate ?? this.createdDate,
       dueDate: dueDate ?? this.dueDate,
       completedDate: completedDate,
-      repeatType: repeatType ?? this.repeatType,
     );
   }
 

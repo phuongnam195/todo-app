@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:todo_app/generated/l10n.dart';
+import 'package:todo_app/repository/task_repository.dart';
 import 'package:todo_app/screen/home/home_screen.dart';
-import 'package:todo_app/screen/splash/splash_screen.dart';
 import 'package:todo_app/util/constants.dart';
 
-import 'screen/setting/setting_screen.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting();
+  TaskRepository().init();
   runApp(const App());
 }
 
@@ -18,26 +17,17 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Todo App',
+      title: 'TODO List',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
-          primary: AppColor.primary,
+          primary: AppColors.primary,
           onPrimary: Colors.white,
-          secondary: AppColor.secondary,
+          secondary: AppColors.secondary,
           onSecondary: Colors.white,
         ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (ctx) => const SplashScreen(),
-        HomeScreen.routeName: (ctx) => const HomeScreen(),
-        SettingScreen.routeName: (ctx) => const SettingScreen(),
-      },
-      localizationsDelegates: const [
-        S.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
+      home: const HomeScreen(),
     );
   }
 }

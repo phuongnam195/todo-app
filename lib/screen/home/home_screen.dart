@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/generated/l10n.dart';
-import 'package:todo_app/screen/home/task_handler_form.dart';
-import 'package:todo_app/screen/home/tasks_card.dart';
-import 'package:todo_app/screen/setting/setting_screen.dart';
+import 'package:todo_app/model/task.dart';
+import 'package:todo_app/screen/home/widgets/new_task_form.dart';
+import 'package:todo_app/screen/home/widgets/tasks_card.dart';
 import 'package:todo_app/util/constants.dart';
 import 'package:todo_app/util/dialog_utils.dart';
 
@@ -21,7 +20,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with DialogUtils {
-  int _currentPageIndex = 1;
+  int _page = 1;
+  final List<Task> _allTasks = [];
+  final List<Task> _todayTasks = [];
+  final List<Task> _upcomingTasks = [];
+
+  _refresh() {
+    homeBloc.add(LoadTasks());
+  }
+
+  List<Task> get _tasksToShow {
+    switch (_page) {
+      case 0:
+        return _allTasks;
+      case 1:
+        return _todayTasks;
+      case 2:
+        return _upcomingTasks;
+      default:
+        return [];
+    }
+  }
 
   @override
   void initState() {
@@ -34,91 +53,67 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
     return BlocListener(
       bloc: homeBloc,
       listenWhen: (prev, curr) =>
-          curr is HomeLoading || curr is HomeError || curr is TaskDeleted,
+          curr is HomeLoading ||
+          curr is HomeError ||
+          curr is TaskDeleted ||
+          curr is TasksLoaded,
       listener: (ctx, state) {
         hideLoadingDialog();
         if (state is HomeLoading) {
-          showLoadingDialog(context);
+          showLoadingDialog();
         } else if (state is HomeError) {
           showErrorDialog(context, state.error);
         } else if (state is TaskDeleted) {
-          showMessage(context, S.current.delete_task_success);
+          showMessage(context, 'Task has been deleted!');
+        } else if (state is TasksLoaded) {
+          setState(() {
+            _allTasks.clear();
+            _todayTasks.clear();
+            _upcomingTasks.clear();
+            _allTasks.addAll(state.allTasks);
+            _todayTasks.addAll(state.todayTasks);
+            _upcomingTasks.addAll(state.upcomingTasks);
+          });
         }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: AppColor.primary,
+          backgroundColor: AppColors.primary,
+          title: const Text('TODO List'),
           elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () async {
-              var languageChanged = await Navigator.of(context)
-                  .pushNamed(SettingScreen.routeName);
-              if (languageChanged == true) {
-                setState(() {
-                  _refresh();
-                });
-              }
-            },
-          ),
         ),
-        body: BlocBuilder<HomeBloc, HomeState>(
-            bloc: homeBloc,
-            buildWhen: (prev, curr) => curr is TasksLoaded,
-            builder: (ctx, state) {
-              hideLoadingDialog();
-              if (state is TasksLoaded) {
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 70),
-                    child: Column(
-                      children: state.mapTasks.entries
-                          .map(
-                            (e) => TasksCard(
-                              key: Key(e.toString()),
-                              title: e.key,
-                              tasks: e.value,
-                              onEditTask: (taskId) =>
-                                  _handleTask(context, taskId),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                );
-              }
-              return Container();
-            }),
+        body: SingleChildScrollView(
+          child: TasksCard(_tasksToShow),
+        ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColor.primary,
+          backgroundColor: AppColors.primary,
           child: const Icon(Icons.add),
           elevation: 0,
           onPressed: () => _handleTask(context),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: [
+          items: const [
             BottomNavigationBarItem(
-              icon: const Icon(Icons.done_all_outlined),
-              label: S.current.complete,
+              icon: Icon(Icons.ballot_outlined),
+              label: 'All',
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.ballot_outlined),
-              label: S.current.all,
+              icon: Icon(Icons.today),
+              label: 'Today',
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.rule),
-              label: S.current.incomplete,
+              icon: Icon(Icons.upcoming_outlined),
+              label: 'Upcoming',
             ),
           ],
-          currentIndex: _currentPageIndex,
-          selectedItemColor: AppColor.secondary,
+          currentIndex: _page,
+          selectedItemColor: AppColors.secondary,
           onTap: (index) {
-            if (_currentPageIndex == index) return;
+            if (_page == index) return;
             setState(() {
-              _currentPageIndex = index;
+              _page = index;
             });
-            _refresh();
           },
         ),
       ),
@@ -127,36 +122,20 @@ class _HomeScreenState extends State<HomeScreen> with DialogUtils {
 
   // taskId == null: add new task
   // taskId != null: edit task
-  _handleTask(BuildContext context, [int? taskId]) async {
+  _handleTask(BuildContext context) async {
     showModalBottomSheet(
       context: context,
-      builder: (mbsContext) => TaskHandlerForm(
-          taskId: taskId,
-          onDone: (msg) {
-            _refresh();
-            Navigator.of(mbsContext).pop();
-            if (msg != null) {
-              showMessage(context, msg);
-            }
-          }),
+      builder: (mbsContext) => NewTaskForm(onSubmit: (msg) {
+        _refresh();
+        Navigator.of(mbsContext).pop();
+        if (msg != null) {
+          showMessage(context, msg);
+        }
+      }),
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12), topRight: Radius.circular(12))),
     );
-  }
-
-  _refresh() {
-    switch (_currentPageIndex) {
-      case 0:
-        homeBloc.add(LoadTasks(completed: true));
-        break;
-      case 1:
-        homeBloc.add(LoadTasks());
-        break;
-      case 2:
-        homeBloc.add(LoadTasks(completed: false));
-        break;
-    }
   }
 }

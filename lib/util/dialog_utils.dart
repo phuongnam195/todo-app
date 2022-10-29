@@ -1,38 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/generated/l10n.dart';
 
 import 'constants.dart';
 
 class DialogUtils {
-  BuildContext? _loadingContext;
+  showLoadingDialog() {}
 
-  showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) {
-        _loadingContext = ctx;
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
-  }
-
-  hideLoadingDialog() {
-    if (_loadingContext != null) {
-      Navigator.of(_loadingContext!).pop();
-      _loadingContext = null;
-    }
-  }
+  hideLoadingDialog() {}
 
   showErrorDialog(BuildContext context, String message) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(S.current.error),
+        title: const Text('Error'),
         content: Text(message),
         actions: [
           TextButton(
-            child: Text(S.current.ok),
+            child: const Text('OK'),
             onPressed: () => Navigator.of(ctx).pop(),
           ),
         ],
@@ -45,7 +28,7 @@ class DialogUtils {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       dismissDirection: DismissDirection.up,
       behavior: SnackBarBehavior.floating,
-      backgroundColor: backgroundColor ?? AppColor.secondary,
+      backgroundColor: backgroundColor ?? AppColors.secondary,
       padding: EdgeInsets.zero,
       margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).size.height - 153 - height),

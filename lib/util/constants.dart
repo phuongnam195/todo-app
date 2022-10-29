@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class AppColor {
+class AppColors {
   static const Color primary = Color(0xFFFF4F5A);
   static const Color secondary = Color(0xFF21A87D);
   static const Color background = Color(0xFFF6F6F6);
@@ -12,19 +12,19 @@ class AppColor {
 class AppStyle {
   static const TextStyle title = TextStyle(
     fontSize: 16,
-    color: AppColor.title,
+    color: AppColors.title,
     fontWeight: FontWeight.bold,
   );
 
   static const TextStyle subtitle = TextStyle(
     fontSize: 16,
-    color: AppColor.title,
+    color: AppColors.title,
     fontWeight: FontWeight.w400,
   );
 
   static const TextStyle hintText = TextStyle(
     fontSize: 12,
-    color: AppColor.hint,
+    color: AppColors.hint,
     fontWeight: FontWeight.w500,
   );
 }
