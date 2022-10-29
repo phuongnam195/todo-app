@@ -4,11 +4,13 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:todo_app/repository/task_repository.dart';
 import 'package:todo_app/screen/home/home_screen.dart';
 import 'package:todo_app/util/constants.dart';
+import 'package:todo_app/util/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting();
   TaskRepository().init();
+  NotificationService().init();
   runApp(const App());
 }
 

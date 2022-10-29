@@ -8,7 +8,7 @@ abstract class ITaskRepository {
   Future<List<Task>> getAll();
   Future<List<Task>> getAllBySearch(String keyword);
   Future<Task?> getById(int id);
-  Future<bool> addTask(Task task);
+  Future<Task?> addTask(Task task);
   Future<bool> updateTask(Task task);
   Future<bool> deleteTask(int id);
 }
@@ -28,14 +28,15 @@ class TaskRepository implements ITaskRepository {
   }
 
   @override
-  Future<bool> addTask(Task task) async {
+  Future<Task?> addTask(Task task) async {
     task = task.copyWith(
         id: DateTime.now().millisecondsSinceEpoch % 100,
         completedDate: task.completedDate);
     DUMMY_TASKS.add(task);
-    return true;
+    return task;
 
-    return (await _appDB.insert(task)) != null;
+    final savedTask = await _appDB.insert(task);
+    return savedTask;
   }
 
   @override

@@ -10,7 +10,7 @@ class Task extends Equatable {
   final String title;
   final bool isCompleted;
   final DateTime createdDate;
-  final DateTime dueDate;
+  final DateTime dateTime;
   final DateTime? completedDate;
 
   const Task({
@@ -18,19 +18,19 @@ class Task extends Equatable {
     required this.title,
     this.isCompleted = false,
     required this.createdDate,
-    required this.dueDate,
+    required this.dateTime,
     this.completedDate,
   }) : assert(isCompleted ^ (completedDate == null));
 
   bool get isOverdue =>
-      completedDate == null && dueDate.isBefore(DateTimeUtils.today());
+      completedDate == null && dateTime.isBefore(DateTimeUtils.today());
 
   Task copyWith({
     int? id,
     String? title,
     bool? isCompleted,
     DateTime? createdDate,
-    DateTime? dueDate,
+    DateTime? dateTime,
     required DateTime? completedDate,
   }) {
     return Task(
@@ -38,7 +38,7 @@ class Task extends Equatable {
       title: title ?? this.title,
       isCompleted: isCompleted ?? this.isCompleted,
       createdDate: createdDate ?? this.createdDate,
-      dueDate: dueDate ?? this.dueDate,
+      dateTime: dateTime ?? this.dateTime,
       completedDate: completedDate,
     );
   }
@@ -63,7 +63,7 @@ class Task extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, title, isCompleted, createdDate, dueDate, completedDate];
+      [id, title, isCompleted, createdDate, dateTime, completedDate];
 
   @override
   bool get stringify => true;

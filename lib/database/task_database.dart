@@ -6,7 +6,7 @@ const columnId = 'id';
 const columnTitle = 'title';
 const columnIsCompleted = 'isCompleted';
 const columnCreatedDate = 'createdDate';
-const columnDueDate = 'dueDate';
+const columnDateTime = 'dateTime';
 const columnCompletedDate = 'completedDate';
 
 class TaskDatabase {
@@ -21,7 +21,7 @@ create table $tableTask (
   $columnTitle text not null,
   $columnIsCompleted integer not null,
   $columnCreatedDate text not null,
-  $columnDueDate text,
+  $columnDateTime text,
   $columnCompletedDate text)
 ''');
     });
@@ -29,11 +29,11 @@ create table $tableTask (
 
   Future<Task?> insert(Task task) async {
     final maps = await _db.query(tableTask,
-        columns: [columnId, columnTitle, columnDueDate],
-        where: '$columnTitle = ? and $columnDueDate = ?',
+        columns: [columnId, columnTitle, columnDateTime],
+        where: '$columnTitle = ? and $columnDateTime = ?',
         whereArgs: [
           task.title,
-          task.dueDate.toIso8601String(),
+          task.dateTime.toIso8601String(),
         ]);
 
     if (maps.isNotEmpty) return null;
@@ -52,7 +52,7 @@ create table $tableTask (
           columnTitle,
           columnIsCompleted,
           columnCreatedDate,
-          columnDueDate,
+          columnDateTime,
           columnCompletedDate,
         ],
         where: '$columnId = ?',
@@ -74,7 +74,7 @@ create table $tableTask (
         columnTitle,
         columnIsCompleted,
         columnCreatedDate,
-        columnDueDate,
+        columnDateTime,
         columnCompletedDate,
       ],
       where: where ?? (completed != null ? '$columnIsCompleted = ?' : null),

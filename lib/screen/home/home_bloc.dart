@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // region EVENT
 import 'package:todo_app/model/task.dart';
 import 'package:todo_app/repository/task_repository.dart';
+import 'package:todo_app/util/constants.dart';
 import 'package:todo_app/util/date_time_utils.dart';
 import 'package:todo_app/util/logger.dart';
+import 'package:todo_app/util/notification_service.dart';
 
 abstract class HomeEvent {}
 
@@ -87,11 +89,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final allTasks = event.keyword == null
           ? await TaskRepository().getAll()
           : await TaskRepository().getAllBySearch(event.keyword!);
-      final todayTasks = allTasks.where((e) => e.dueDate.isToday()).toList();
+      final todayTasks = allTasks.where((e) => e.dateTime.isToday()).toList();
       final upcomingTasks = allTasks
           .where((e) =>
-              e.dueDate.isAfter(DateTimeUtils.tomorrow()) ||
-              e.dueDate.isAtSameMomentAs(DateTimeUtils.tomorrow()))
+              e.dateTime.isAfter(DateTimeUtils.tomorrow()) ||
+              e.dateTime.isAtSameMomentAs(DateTimeUtils.tomorrow()))
           .toList();
       emit(TasksLoaded(allTasks, todayTasks, upcomingTasks));
     } catch (e) {
@@ -114,8 +116,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _onAddTask(AddTask event, Emitter<HomeState> emit) async {
     try {
-      final ok = await TaskRepository().addTask(event.task);
-      if (ok) {
+      final savedTask = await TaskRepository().addTask(event.task);
+      if (savedTask != null) {
+        NotificationService().scheduleNotification(
+          id: savedTask.id,
+          title: 'You have a task to do',
+          body: savedTask.title,
+          time: savedTask.dateTime.subtract(TASK_NOTIFICATION_BEFORE),
+        );
         emit(TaskAdded());
       } else {
         throw Exception('Duplicate task');

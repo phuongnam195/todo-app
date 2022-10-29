@@ -19,7 +19,7 @@ class NewTaskForm extends StatefulWidget {
 
 class _NewTaskFormState extends State<NewTaskForm> {
   final _titleController = TextEditingController();
-  final _dueDateController = TextEditingController();
+  final _dateTimeController = TextEditingController();
 
   final _titleNode = FocusNode();
 
@@ -27,14 +27,14 @@ class _NewTaskFormState extends State<NewTaskForm> {
 
   @override
   void initState() {
-    _dueDateController.text = _selectedDateTime.formatDateTime();
+    _dateTimeController.text = _selectedDateTime.formatDateTime();
     super.initState();
   }
 
   @override
   void dispose() {
     _titleController.dispose();
-    _dueDateController.dispose();
+    _dateTimeController.dispose();
     _titleNode.dispose();
     super.dispose();
   }
@@ -86,7 +86,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                 child: Text('Date & Time', style: AppStyle.hintText)),
             const SizedBox(height: 10),
             TextField(
-              controller: _dueDateController,
+              controller: _dateTimeController,
               style: AppStyle.subtitle,
               readOnly: true,
               showCursor: false,
@@ -110,7 +110,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                       DateTimeUtils.today().add(const Duration(days: 365 * 5)),
                   onConfirm: (time) {
                     _selectedDateTime = time;
-                    _dueDateController.text =
+                    _dateTimeController.text =
                         _selectedDateTime.formatDateTime();
                   },
                 );
@@ -153,7 +153,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
     final task = Task(
       id: DateTime.now().millisecondsSinceEpoch,
       title: _titleController.text,
-      dueDate: _selectedDateTime,
+      dateTime: _selectedDateTime,
       createdDate: DateTime.now(),
     );
     homeBloc.add(AddTask(task));

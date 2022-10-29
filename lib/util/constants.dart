@@ -28,3 +28,5 @@ class AppStyle {
     fontWeight: FontWeight.w500,
   );
 }
+
+const TASK_NOTIFICATION_BEFORE = Duration(minutes: 10);
