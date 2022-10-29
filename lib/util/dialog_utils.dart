@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'constants.dart';
 
 class DialogUtils {
-  showLoadingDialog() {}
+  showLoadingDialog() {
+    EasyLoading.show();
+  }
 
-  hideLoadingDialog() {}
+  hideLoadingDialog() {
+    EasyLoading.dismiss();
+  }
 
   showErrorDialog(BuildContext context, String message) {
     showDialog(
