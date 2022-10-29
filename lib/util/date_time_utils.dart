@@ -17,8 +17,8 @@ class DateTimeUtils {
 extension DateTimeExt on DateTime {
   DateTime get date => DateTime(year, month, day);
 
-  String formatDate() {
-    return DateFormat('dd.MM.yyyy').format(this);
+  String formatDateTime() {
+    return DateFormat('dd.MM.yyyy - HH:mm').format(this);
   }
 
   bool isToday() => this == DateTimeUtils.today();

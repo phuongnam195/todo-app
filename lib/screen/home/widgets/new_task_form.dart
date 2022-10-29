@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todo_app/model/task.dart';
 import 'package:todo_app/util/constants.dart';
 import 'package:todo_app/util/date_time_utils.dart';
@@ -22,11 +23,11 @@ class _NewTaskFormState extends State<NewTaskForm> {
 
   final _titleNode = FocusNode();
 
-  DateTime _selectedDueDate = DateTimeUtils.today();
+  DateTime _selectedDateTime = DateTimeUtils.today();
 
   @override
   void initState() {
-    _dueDateController.text = _selectedDueDate.formatDate();
+    _dueDateController.text = _selectedDateTime.formatDateTime();
     super.initState();
   }
 
@@ -80,7 +81,9 @@ class _NewTaskFormState extends State<NewTaskForm> {
               ),
             ),
             const SizedBox(height: 15),
-            const Text('Due date', style: AppStyle.hintText),
+            const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Date & Time', style: AppStyle.hintText)),
             const SizedBox(height: 10),
             TextField(
               controller: _dueDateController,
@@ -96,16 +99,21 @@ class _NewTaskFormState extends State<NewTaskForm> {
                 ),
                 suffixIcon: const Icon(Icons.calendar_today_outlined),
               ),
+              textAlign: TextAlign.center,
               onTap: () async {
-                final value = await showDatePicker(
-                  context: context,
-                  initialDate: _selectedDueDate,
-                  firstDate: DateTimeUtils.today(),
-                  lastDate:
+                DatePicker.showDateTimePicker(
+                  context,
+                  locale: LocaleType.en,
+                  currentTime: DateTime.now(),
+                  minTime: DateTime.now(),
+                  maxTime:
                       DateTimeUtils.today().add(const Duration(days: 365 * 5)),
+                  onConfirm: (time) {
+                    _selectedDateTime = time;
+                    _dueDateController.text =
+                        _selectedDateTime.formatDateTime();
+                  },
                 );
-                _selectedDueDate = value ?? _selectedDueDate;
-                _dueDateController.text = _selectedDueDate.formatDate();
               },
             ),
             const SizedBox(height: 32),
@@ -145,7 +153,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
     final task = Task(
       id: DateTime.now().millisecondsSinceEpoch,
       title: _titleController.text,
-      dueDate: _selectedDueDate,
+      dueDate: _selectedDateTime,
       createdDate: DateTime.now(),
     );
     homeBloc.add(AddTask(task));
